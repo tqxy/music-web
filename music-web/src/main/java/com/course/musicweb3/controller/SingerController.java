@@ -56,6 +56,7 @@ public class SingerController {
         }
         return jsonObject;
     }
+
     @RequestMapping("/delete")
     public Object deleteSinger(HttpServletRequest request){
         String id=request.getParameter("id");
@@ -71,6 +72,13 @@ public class SingerController {
         }
         return jsonObject;
     }
+
+    /**
+     * 该入参与视频不同，是请求体JSON入参，不是parametre注意一下
+     * 上面那个写法太抽象了
+     * @param singer
+     * @return
+     */
     @RequestMapping("/update")
     public Object updateSinger(@RequestBody Singer singer){
         return singerService.update(singer);
@@ -89,7 +97,7 @@ public class SingerController {
         String sex=request.getParameter("sex");
         return singerService.singerOfSex(Integer.parseInt(sex));
     }
-    @RequestMapping("/singerOfId")
+    @RequestMapping("/selectByPrimaryKey")
     public Object singerOfId(HttpServletRequest request){
         String id=request.getParameter("id");
         return singerService.selectByPrimaryKey(Integer.parseInt(id));
