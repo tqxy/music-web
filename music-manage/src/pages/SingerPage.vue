@@ -5,6 +5,16 @@
         <el-button type="primary" size="mini" @click="centerDialogVisible=true">添加歌手</el-button>
       </div>
     </div>
+    <el-table size="mini" border style="width: 100%" height="500px" :data="tableData">
+      <el-table-column label="歌手图片" width="110" align="center">
+        <template slot-scope="scope">
+          <div class="singer-img">
+            <img :src="getUrl(scope.row.pic)" style="width:100%"/>
+
+          </div>
+        </template>
+      </el-table-column> 
+    </el-table>
     <el-dialog title="添加歌手" :visible.sync="centerDialogVisible" width="400px" center>
       <el-form :model="registerForm" ref="registerForm" label-width="80px">
         <el-form-item label="歌手名" prop="name" size="mini">
@@ -37,12 +47,13 @@
 </template>
 
 <script>
-import {setSinger} from '../api/index.js';
+import {setSinger,getAllSinger} from '../api/index.js';
 import TheAside from '../components/TheAside.vue';
 import TheHeader from '../components/TheHeader.vue';
-import { mixin } from '../mixins'
+import { mixin } from '../mixins/index.js'
 
 export default{
+  mixins:[mixin],
   data(){
     return{
       centerDialogVisible: false,
@@ -52,10 +63,25 @@ export default{
         birth:'',
         location:'',
         introduction:''
-      }
+      },
+      tableData:[]
     }
   },
+  created(){
+    this.getData();
+  },
   methods:{
+    //查询所有歌手
+    getData(){
+      getAllSinger()
+      .then(res => {
+        this.tableData=res.data;
+      })
+      .catch(error=>{
+        console.log(error);
+      })
+    },
+    //添加歌手
     addSinger(){
       let d=this.registerForm.birth;
       let datetime=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
@@ -69,14 +95,13 @@ export default{
       setSinger(params)
       .then(res => {
         if(res.code==1){
-          this.$notify('添加成功', 'success');
+          this.notify('添加成功', 'success');
         }else{
-          this.$notify('添加失败', 'error');
-          //这里的notify暂时不起作用，不知为何
+          this.notify('添加失败', 'error');
         }
       })
       .catch(error=>{
-        this.$notify('添加失败', 'error');
+        this.notify('添加失败', 'error');
         console.log(error);
       })
       this.centerDialogVisible=false;
@@ -88,5 +113,12 @@ export default{
 <style scoped>
   .handle-box{
     margin-bottom: 20px;
+  }
+  .singer-img{
+    width:100%;
+    height:80px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
   }
 </style>
