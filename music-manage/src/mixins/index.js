@@ -10,6 +10,10 @@ export const mixin = {
     // 根据相对地址获取绝对地址
     getUrl(url){
       return `${this.$store.state.HOST}/${url}`
+    },
+    attachBirth(birth){
+      
+      return birth.slice(0,10)
     }
   }
 }

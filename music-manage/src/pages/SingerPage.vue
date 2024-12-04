@@ -14,6 +14,26 @@
           </div>
         </template>
       </el-table-column> 
+      <el-table-column prop="name" label="歌手名" width="110" align="center"></el-table-column>
+      <el-table-column label="性别" width="80" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.sex==1">男</el-tag>
+          <el-tag v-else-if="scope.row.sex==0">女</el-tag>
+          <el-tag v-else-if="scope.row.sex==2">组合</el-tag>
+          <el-tag v-else-if="scope.row.sex==3">未知</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="birth" label="生日" width="110" align="center">
+        <template slot-scope="scope">
+          {{attachBirth(scope.row.birth)}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="location" label="地区" width="110" align="center"></el-table-column>
+      <el-table-column label="简介" width="110" align="center">
+        <template slot-scope="scope">
+          <p style="height: 100px;overflow: scroll;">{{ scope.row.introduction }}</p>
+        </template>
+      </el-table-column>
     </el-table>
     <el-dialog title="添加歌手" :visible.sync="centerDialogVisible" width="400px" center>
       <el-form :model="registerForm" ref="registerForm" label-width="80px">

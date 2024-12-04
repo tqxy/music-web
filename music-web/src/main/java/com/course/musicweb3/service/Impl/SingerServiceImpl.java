@@ -37,7 +37,8 @@ public class SingerServiceImpl implements SingerService {
 
     @Override
     public List<Singer> allSinger() {
-        return singerMapper.allSinger();
+        List<Singer> singers = singerMapper.allSinger();
+        return singers;
     }
 
     @Override
