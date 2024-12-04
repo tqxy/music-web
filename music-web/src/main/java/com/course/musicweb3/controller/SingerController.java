@@ -5,10 +5,10 @@ import com.course.musicweb3.domain.Singer;
 import com.course.musicweb3.service.SingerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -101,5 +101,48 @@ public class SingerController {
     public Object singerOfId(HttpServletRequest request){
         String id=request.getParameter("id");
         return singerService.selectByPrimaryKey(Integer.parseInt(id));
+    }
+    /**
+     * 上传歌手图片
+     */
+    @RequestMapping(value = "/updateSingerPic",method = RequestMethod.POST)
+    public Object uploadPic(@RequestParam("file") MultipartFile avatorFile, @RequestParam("id")int id){
+        JSONObject jsonObject=new JSONObject();
+        if(avatorFile.isEmpty()){
+            jsonObject.put("code",0);
+            jsonObject.put("msg","文件上传失败");
+            return jsonObject;
+        }
+        //文件名=当前时间到毫秒+原来的文件名
+        String fileName=System.currentTimeMillis()+avatorFile.getOriginalFilename();
+        String filePath=System.getProperty("user.dir")+System.getProperty("file.separator")+"img"
+                +System.getProperty("file.separator")+"singerPic";
+        //如果文件路径不存在新增路径
+        File file1=new File(filePath);
+        if(file1.exists()){
+            file1.mkdir();
+        }
+        //实际的文件地址
+        File dest=new File(filePath+System.getProperty("file.separator")+fileName);
+        //存储到数据库里的相对文件地址
+        String storeAvatorPath="/img/singerPic/"+fileName;
+        try {
+            avatorFile.transferTo(dest);
+            Singer singer=singerService.selectByPrimaryKey(id);
+            singer.setPic(storeAvatorPath);
+            boolean flag=singerService.update(singer);
+            if(flag){
+                jsonObject.put("code",1);
+                jsonObject.put("avator",storeAvatorPath);
+                jsonObject.put("msg","上传成功");
+                return jsonObject;
+            }
+            jsonObject.put("code",0);
+            jsonObject.put("msg","上传失败");
+        } catch (Exception e) {
+            jsonObject.put("code",0);
+            jsonObject.put("msg","上传失败"+e.getMessage());
+        }
+        return jsonObject;
     }
 }

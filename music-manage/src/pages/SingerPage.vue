@@ -12,6 +12,7 @@
             <img :src="getUrl(scope.row.pic)" style="width:100%"/>
 
           </div>
+          <el-upload :accept="UploadUrl(scope.row.id)"
         </template>
       </el-table-column> 
       <el-table-column prop="name" label="歌手名" width="110" align="center"></el-table-column>
@@ -29,7 +30,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="location" label="地区" width="110" align="center"></el-table-column>
-      <el-table-column label="简介" width="110" align="center">
+      <el-table-column label="简介" width="500" align="center">
         <template slot-scope="scope">
           <p style="height: 100px;overflow: scroll;">{{ scope.row.introduction }}</p>
         </template>
@@ -67,6 +68,7 @@
 </template>
 
 <script>
+import { Upload } from 'element-ui';
 import {setSinger,getAllSinger} from '../api/index.js';
 import TheAside from '../components/TheAside.vue';
 import TheHeader from '../components/TheHeader.vue';
