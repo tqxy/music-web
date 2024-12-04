@@ -10,7 +10,7 @@
         <template slot-scope="scope">
           <div class="singer-img">
             <img :src="getUrl(scope.row.pic)" style="width:100%"/>
-
+            
           </div>
         </template>
       </el-table-column> 
@@ -73,6 +73,7 @@ export default{
   methods:{
     //查询所有歌手
     getData(){
+      this.tableData=[];
       getAllSinger()
       .then(res => {
         this.tableData=res.data;
