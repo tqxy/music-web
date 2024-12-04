@@ -10,7 +10,7 @@
         <template slot-scope="scope">
           <div class="singer-img">
             <img :src="getUrl(scope.row.pic)" style="width:100%"/>
-            
+
           </div>
         </template>
       </el-table-column> 
@@ -76,7 +76,7 @@ export default{
       this.tableData=[];
       getAllSinger()
       .then(res => {
-        this.tableData=res.data;
+        this.tableData=res;
       })
       .catch(error=>{
         console.log(error);
