@@ -41,6 +41,11 @@
           <p style="height: 100px;overflow: scroll;">{{ scope.row.introduction }}</p>
         </template>
       </el-table-column>
+      <el-table-column label="歌曲管理" width="110" align="center">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="songEdit(scope.row.id,scope.row.name)">歌曲管理</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
@@ -267,7 +272,7 @@ export default{
       
       updateSinger(JSON.stringify(payload))
       .then(res => {
-        if(res="true"){
+        if(res=="true"){
           this.getData();
           this.notify('修改成功', 'success');
         }else{
@@ -313,6 +318,16 @@ export default{
           this.notify('批量删除失败', 'error');
           console.log(error);
         });
+    },
+    //转向歌曲管理页面
+    songEdit(id,name){
+      this.$router.push({
+        path:'/Song',
+        query:{
+          singerId:id,
+          singerName:name
+        }
+      })
     }
   },
   components:{TheAside,TheHeader},

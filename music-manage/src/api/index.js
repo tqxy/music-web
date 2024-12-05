@@ -14,3 +14,12 @@ export const updateSinger =(params)=>postJson('/singer/update',params);
 export const getAllSinger =()=>get('/singer/allSinger');
 //删除歌手
 export const deleteSinger =(id)=>get(`/singer/delete?id=${id}`);
+
+//查询歌曲
+export const songOfSingerId =(id)=>get(`/song/singer/detail?singerId=${id}`);
+//编辑歌曲
+export const updateSong =(params)=>postJson('/song/update',params);
+//删除歌曲
+export const deleteSong =(id)=>get(`/song/delete?id=${id}`);
+//更新歌曲图片
+export const updateSongPic =(params)=>post('/song/updateSongPic',params);
