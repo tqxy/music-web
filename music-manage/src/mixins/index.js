@@ -43,5 +43,14 @@ export const mixin = {
         });
       };
     },
+    //弹出删除窗口
+    handleDelete(id){
+      this.idx=id;
+      this.delVisible=true;
+    },
+    //选中项改变
+    handleSelectionChange(val){
+      this.multipleSelection=val;
+    }
   }
 }

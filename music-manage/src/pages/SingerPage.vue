@@ -2,11 +2,14 @@
   <div class="table">
     <div class="container">
       <div class="handle-box">
+        <el-button type="primary" size="mini" @click="getData">刷新</el-button>
+        <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
         <el-input v-model="select_word" size="mini" placeholder="请输入歌手名" class="handle-input mr10"></el-input>
         <el-button type="primary" size="mini" @click="centerDialogVisible=true">添加歌手</el-button>
       </div>
     </div>
-    <el-table size="mini" border style="width: 100%" height="600px" :data="data">
+    <el-table size="mini" border style="width: 100%" height="600px" :data="data" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column label="歌手图片" width="110" align="center">
         <template slot-scope="scope">
           <div class="singer-img">
@@ -111,12 +114,21 @@
           <el-button size="mini" @click="editSave">确定</el-button>
         </span>
     </el-dialog>
+    <el-dialog title="删除歌手" :visible.sync="delVisible" width="400px" center>
+      <div align="center">
+        <p>删除不可恢复，确定删除该歌手吗？</p>
+      </div>
+      <span slot="footer">
+        <el-button size="mini" @click='delVisible=false'>取消</el-button>
+        <el-button size="mini" @click="deleteRow">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { Upload } from 'element-ui';
-import {setSinger,getAllSinger,updateSinger} from '../api/index.js';
+import {setSinger,getAllSinger,updateSinger,deleteSinger} from '../api/index.js';
 import TheAside from '../components/TheAside.vue';
 import TheHeader from '../components/TheHeader.vue';
 import { mixin } from '../mixins/index.js'
@@ -127,8 +139,8 @@ export default{
   data(){
     return{
       centerDialogVisible: false,//添加弹窗是否显示
-      //编辑弹窗是否显示
-      editVisible:false,
+      editVisible:false,//编辑弹窗是否显示
+      delVisible:false,//删除弹窗是否显示
       registerForm:{
         name:'',
         sex:'',
@@ -148,7 +160,9 @@ export default{
       tempData:[],
       select_word:'',
       pageSize:4,//分页每页大小
-      currentPage:1
+      currentPage:1,
+      idx:-1,//选择项
+      mutipleSelection:[],//哪些项被选中
     }
   },
   watch:{
@@ -266,6 +280,39 @@ export default{
       })
       this.editVisible=false;
 
+    },
+    //删除歌手
+    deleteRow(){
+      deleteSinger(this.idx)
+      .then(res => {
+        if(res.code==1){
+          this.getData();
+          this.notify('删除成功', 'success');
+        }else{
+          this.notify('删除失败', 'error');
+        }
+      })
+      .catch(error=>{
+        this.notify('删除失败', 'error');
+        console.log(error);
+      })
+      this.delVisible=false;
+    },
+    delAll(){
+      //console.log(this.multipleSelection);
+      const deletePromises = this.multipleSelection.map(item => {
+        this.idx = item.id; // 如果你需要idx用于其他操作，可以在这里设置
+        return this.deleteRow(item.id); // 传递每个项的id
+      });
+      Promise.all(deletePromises)
+        .then(() => {
+          this.getData(); // 重新获取数据
+          this.notify('批量删除成功', 'success');
+        })
+        .catch(error => {
+          this.notify('批量删除失败', 'error');
+          console.log(error);
+        });
     }
   },
   components:{TheAside,TheHeader},

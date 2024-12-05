@@ -12,3 +12,5 @@ export const updateSinger =(params)=>postJson('/singer/update',params);
 
 //查询所有歌手
 export const getAllSinger =()=>get('/singer/allSinger');
+//删除歌手
+export const deleteSinger =(id)=>get(`/singer/delete?id=${id}`);
