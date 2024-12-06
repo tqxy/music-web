@@ -54,7 +54,10 @@ export default {
 </script>
 
 <style>
-#player {
-  display: none;
+.song-audio {
+  display: inline;
 }
+/* #player {
+  display: none;
+} */
 </style>

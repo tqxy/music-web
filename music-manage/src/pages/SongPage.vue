@@ -9,6 +9,7 @@
           <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
           <el-input v-model="select_word" size="mini" placeholder="请输入歌曲名" class="handle-input mr10"></el-input>
           <el-button type="primary" size="mini" @click="centerDialogVisible=true">添加歌曲</el-button>
+          <SongAudio class="song-audio"></SongAudio>
         </div>
       </div>
       <el-table size="mini" border style="width: 100%" height="600px" :data="data" @selection-change="handleSelectionChange">
@@ -17,23 +18,43 @@
           <template slot-scope="scope">
             <div class="song-img">
               <img :src="getUrl(scope.row.pic)" style="width:100%"/>
-  
             </div>
-            <el-upload :action=uploadUrl(scope.row.id) :before-upload="beforeAvatarUpload" :on-success="handleAvatorSuccess">
-              <el-button size="mini">更新图片</el-button>
-            </el-upload>
+            <div class="play" @click="setSongUrl(scope.row.url,scope.row.name)">
+              <div v-if="toggle==scope.row.name">
+                <svg class="icon">
+                  <symbol id="icon-zanting"></symbol>
+                  <use href="#icon-zanting"></use>
+                </svg>
+              </div>
+              <div v-if="toggle!=scope.row.name">
+                <svg class="icon">
+                  <symbol id="icon-bofanganniu"></symbol>
+                  <use href="#icon-bofanganniu"></use>
+                </svg>
+              </div>
+            </div>
           </template>
         </el-table-column> 
         <el-table-column prop="name" label="歌手-歌名" width="110" align="center"></el-table-column>
         <el-table-column prop="introduction" label="专辑" width="150" align="center"></el-table-column>
         <el-table-column label="歌词" align="center">
         <template slot-scope="scope">
-            <ul style="height: 100px;overflow: scroll;"
+            <ul style="height: 100px;overflow: scroll;">
                 <li v-for="(item,index) in formatLyric(scope.row.lyric)" :key="index">
                     {{ item }}
                 </li>
             </ul>
         </template>
+        </el-table-column>
+        <el-table-column label="资源更新" align="center">
+          <template slot-scope="scope">
+            <el-upload :action=uploadUrl(scope.row.id) :before-upload="beforeAvatarUpload" :on-success="handleAvatorSuccess">
+              <el-button size="mini">更新图片</el-button>
+            </el-upload>
+            <el-upload :action=updateSongUrl(scope.row.id) :before-upload="beforeSongUpload" :on-success="handleSongSuccess">
+              <el-button size="mini">更新歌曲</el-button>
+            </el-upload>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="150" align="center">
           <template slot-scope="scope">
@@ -107,13 +128,17 @@
   </template>
   
   <script>
+  import { mapGetters } from 'vuex'
+  import '@/assets/js/iconfont.js'
   import { Upload } from 'element-ui';
+  import { template } from 'babel-core';
   import { songOfSingerId,updateSong,deleteSong } from '../api/index.js';
   import TheAside from '../components/TheAside.vue';
   import TheHeader from '../components/TheHeader.vue';
   import { mixin } from '../mixins/index.js'
-  import { template } from 'babel-core';
-  
+  import SongAudio from '../components/SongAudio.vue'
+
+
   export default{
     mixins:[mixin],
     data(){
@@ -143,6 +168,7 @@
         currentPage:1,
         idx:-1,//选择项
         mutipleSelection:[],//哪些项被选中
+        toggle:false
       }
     },
     watch:{
@@ -171,6 +197,9 @@
         console.log('Singer ID:', this.singerId);
         console.log('Singer Name:', this.singerName);
         this.getData();
+    },
+    destroyed(){
+      this.$store.commit('setIsPlay',false);
     },
     methods:{
       //查询所有歌手
@@ -304,9 +333,47 @@
         }
         console.log(result)
         return result;
+      },
+      beforeSongUpload(file){
+        var testMsg=file.name.substring(file.name.lastIndexOf('.')+1);
+        //console.log(testMsg)
+        const extension = (testMsg=='mp3'||'flac')?true:false;
+        if(!extension){
+          this.$message.error('上传歌曲只能是 MP3 / flac 格式!');
+          return false;
+        }
+        return true;
+      },
+      handleSongSuccess(res,file){
+        if(res.code==1){
+          this.getData();
+          this.notify(
+            '上传成功',
+            'success'
+          );
+        }else{
+          this.notify(
+            '上传失败',
+            'error'
+          );
+        }
+      },
+      updateSongUrl(id){
+        return `${this.$store.state.HOST}/song/updateSongUrl?id=${id}`
+      },
+      //切换播放歌曲
+      setSongUrl(url,name){
+        this.toggle=name;
+        this.$store.commit('setUrl',this.$store.state.HOST+url);
+        console.log(this.$store.state.HOST+url)
+        if(this.isPlay){
+          this.$store.commit('setIsPlay',false);
+        }else{
+          this.$store.commit('setIsPlay',true);
+        }
       }
     },
-    components:{TheAside,TheHeader},
+    components:{TheAside,TheHeader,SongAudio},
   }
   </script>
   <style scoped>
@@ -327,5 +394,24 @@
     .pagination{
       display: flex;
       justify-content: center;
+    }
+    .play{
+      position:absolute;
+      z-index:100;
+      width:80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      top:18px;
+      left:15px;
+    }
+    .icon{
+      width:2em;
+      height:2em;
+      color:red;
+      fill:currentColor;
+      overflow: hidden;
     }
   </style>

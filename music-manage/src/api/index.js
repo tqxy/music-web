@@ -23,3 +23,13 @@ export const updateSong =(params)=>postJson('/song/update',params);
 export const deleteSong =(id)=>get(`/song/delete?id=${id}`);
 //更新歌曲图片
 export const updateSongPic =(params)=>post('/song/updateSongPic',params);
+
+//添加歌手
+export const setSongList =(params)=>post('/songList/add',params);
+//编辑歌手
+export const updateSongList =(params)=>postJson('/songList/update',params);
+
+//查询所有歌手
+export const getAllSongList =()=>get('/songList/allSongList');
+//删除歌手
+export const deleteSongList =(id)=>get(`/songList/delete?id=${id}`);

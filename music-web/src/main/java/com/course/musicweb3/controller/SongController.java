@@ -126,6 +126,7 @@ public class SongController {
         }
         return jsonObject;
     }
+    @RequestMapping("updateSongUrl")
     public Object updateSongUrl(@RequestParam("file") MultipartFile avatorFile,@RequestParam("id")int id){
         JSONObject jsonObject=new JSONObject();
         if(avatorFile.isEmpty()){
@@ -144,7 +145,7 @@ public class SongController {
         //实际的文件地址
         File dest=new File(filePath+System.getProperty("file.separator")+fileName);
         //存储到数据库里的相对文件地址
-        String storeAvatorPath="/img/songPic/"+fileName;
+        String storeAvatorPath="/song/"+fileName;
         try {
             avatorFile.transferTo(dest);
             Song song=songService.selectByPrimaryKey(id);
