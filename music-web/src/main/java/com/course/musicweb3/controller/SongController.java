@@ -175,4 +175,12 @@ public class SongController {
         String songName=request.getParameter("songName");
         return songService.songOfName(songName);
     }
+    @RequestMapping("/count")
+    public Object count(){
+        return songService.allSong().size();
+    }
+    @RequestMapping("/allSong")
+    public Object allSong(){
+        return songService.allSong();
+    }
 }

@@ -23,6 +23,8 @@ export const updateSong =(params)=>postJson('/song/update',params);
 export const deleteSong =(id)=>get(`/song/delete?id=${id}`);
 //根据歌曲ID查询歌曲对象
 export const songOfId =(id)=>get(`/song/detail?songId=${id}`);
+//获取歌曲总数
+export const getAllSong =()=>get(`/song/allSong`);
 //跟据歌曲名获取歌曲对象
 export const songOfSongName =(songName)=>get(`/song/songOfSongName?songName=${songName}`);
 //更新歌曲图片
