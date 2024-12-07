@@ -43,3 +43,14 @@ export const getSongIdOfSongList =(songListId)=>get(`/listSong/songList/detail?s
 export const listSongAdd =(params)=>post('/listSong/add',params);
 //删除歌曲
 export const deleteListSong =(id)=>get(`/listSong/delete?id=${id}`);
+
+
+//添加歌手
+export const setConsumer =(params)=>postJson('/consumer/add',params);
+//编辑歌手
+export const updateConsumer =(params)=>postJson('/consumer/update',params);
+
+//查询所有歌手
+export const getAllConsumer =()=>get('/consumer/allConsumer');
+//删除歌手
+export const deleteConsumer =(id)=>get(`/consumer/delete?id=${id}`);
