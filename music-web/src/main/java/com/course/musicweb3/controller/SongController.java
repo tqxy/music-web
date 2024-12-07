@@ -126,7 +126,7 @@ public class SongController {
         }
         return jsonObject;
     }
-    @RequestMapping("updateSongUrl")
+    @RequestMapping("/updateSongUrl")
     public Object updateSongUrl(@RequestParam("file") MultipartFile avatorFile,@RequestParam("id")int id){
         JSONObject jsonObject=new JSONObject();
         if(avatorFile.isEmpty()){
@@ -164,5 +164,15 @@ public class SongController {
             jsonObject.put("msg","上传失败"+e.getMessage());
         }
         return jsonObject;
+    }
+    @RequestMapping("/detail")
+    public Object songDetail(HttpServletRequest request){
+        String songId=request.getParameter("songId");
+        return songService.selectByPrimaryKey(Integer.parseInt(songId));
+    }
+    @RequestMapping("/songOfSongName")
+    public Object songOfSongName(HttpServletRequest request){
+        String songName=request.getParameter("songName");
+        return songService.songOfName(songName);
     }
 }

@@ -50,7 +50,7 @@
         select <include refid="Blob_Column_List"/> from song where id = #{id}
     </select>
     <select id="songOfName" parameterType="java.lang.String" resultMap="ResultMapWithBlobs">
-        select <include refid="Blob_Column_List"/> from song where name like #{name}
+        select <include refid="Blob_Column_List"/> from song where name = #{name}
     </select>
     <select id="songOfSingerId" parameterType="java.lang.Integer" resultMap="ResultMapWithBlobs">
         select <include refid="Blob_Column_List"/>
