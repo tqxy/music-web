@@ -5,7 +5,7 @@
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-erji"></use>
       </svg>
-      <span>{{musicName}}</span>
+      <span>music</span>
     </div>
     <ul class="navbar" ref="change">
       <li :class="{active: item.name === activeName}" v-for="item in navMsg" :key="item.path" @click="goPage(item.path, item.name)">
@@ -45,7 +45,6 @@ export default {
   mixins: [mixin],
   data () {
     return {
-      musicName: 'Yin-music',
       navMsg: [], // 左侧导航栏
       loginMsg: [], // 右侧导航栏
       menuList: [], // 用户下拉菜单项

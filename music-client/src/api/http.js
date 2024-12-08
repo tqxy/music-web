@@ -108,6 +108,26 @@ export function post(url, data = {}) {
 }
 
 /**
+ * JSON格式的post
+ */
+export function postJson(url, data = {}) {
+  return new Promise((resolve, reject) => {
+      // 设置请求头，指定Content-Type为application/json
+      axios.post(url, data, {
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+          resolve(response.data);
+      })
+      .catch(error => {
+          reject(error);
+      });
+  });
+}
+
+/**
    * 封装delete请求
    * @param url
    * @param data

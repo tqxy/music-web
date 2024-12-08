@@ -13,7 +13,7 @@
 <script>
 import Swiper from '../components/Swiper'
 import ContentList from '../components/ContentList'
-import { getSongList, getAllSinger } from '../api/index'
+import { getAllSongList, getAllSinger } from '../api/index'
 
 export default {
   name: 'home',
@@ -31,13 +31,13 @@ export default {
   },
   created () {
     // 获取歌单列表
-    this.getSongList('songList')
+    this.getAllSongList('songList')
     // 获取歌手列表
     this.getSinger('singer')
   },
   methods: {
-    getSongList (path) {
-      getSongList()
+    getAllSongList (path) {
+      getAllSongList()
         .then(res => {
           this.songsList[0].list = res.slice(0, 10)
         })

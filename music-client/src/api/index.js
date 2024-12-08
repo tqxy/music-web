@@ -11,6 +11,8 @@ export const SignUp = (params) => post(`user/add`, params)
 export const updateUserMsg = (params) => post(`user/update`, params)
 // 返回指定ID的用户
 export const getUserOfId = (id) => get(`user/detail?id=${id}`)
+//查询所有用户
+export const getAllConsumer =()=>get('/consumer/allConsumer');
 
 
 // =======================> 歌单 API
@@ -22,14 +24,21 @@ export const getSongListOfStyle = (style) => get(`songList/style/detail?style=${
 export const getSongListOfLikeTitle = (keywords) => get(`songList/likeTitle/detail?title=${keywords}`)
 // 返回歌单里指定歌单ID的歌曲
 export const getListSongOfSongId = (songListId) => get(`listSong/detail?songListId=${songListId}`)
+//查询所有歌手
+export const getAllSongList =()=>get('/songList/allSongList');
+//根据歌单ID获取歌曲ID列表
+export const getSongIdOfSongList =(songListId)=>get(`/listSong/songList/detail?songListId=${songListId}`);
 
 
 // =======================> 歌手 API
 // 返回所有歌手
-export const getAllSinger = () => get('singer')
+export const getAllSinger = () => get('singer/allSinger')
 // 通过性别对歌手分类
 export const getSingerOfSex = (sex) => get(`singer/sex/detail?sex=${sex}`)
-
+//查询歌曲通过歌手ID
+export const songOfSingerId =(id)=>get(`/song/singer/detail?singerId=${id}`);
+//根据歌曲ID查询歌曲对象
+export const songOfId =(id)=>get(`/song/detail?songId=${id}`);
 
 // =======================> 收藏 API
 // 返回的指定用户ID的收藏列表
