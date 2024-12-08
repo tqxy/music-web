@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.course.musicweb3.domain.ListSong">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="songId" column="song_id" jdbcType="INTEGER"/>
-        <result property="songListId" column="list_song_id" jdbcType="INTEGER"/>
+        <result property="songListId" column="song_list_id" jdbcType="INTEGER"/>
     </resultMap>
 
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.musicweb3.dao.RankMapper">
+    <resultMap id="BaseResultMap" type="com.course.musicweb3.domain.Rank">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="consumerId" column="consumer_id" jdbcType="INTEGER"/>
+        <result property="songListId" column="song_list_id" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, consumer_id, song_list_id, score
+    </sql>
+    <insert id="insert" parameterType="com.course.musicweb3.domain.Rank">
+        insert into `rank`(consumer_id,song_list_id,score)
+        values(#{consumerId},#{songListId},#{score})
+    </insert>
+
+    <select id="selectScoreSum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select COALESCE(SUM(score),0) as score
+        from `rank`
+        where song_list_id = #{songListId}
+    </select>
+    <select id="selectRankNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select COUNT(*) as num
+        from `rank`
+        where song_list_id = #{songListId}
+    </select>
+<!--        public int selectScoreSum(Long songListId);
+    public int selectRankNum(Long songListId);-->
+</mapper>

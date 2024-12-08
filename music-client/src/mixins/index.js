@@ -18,11 +18,13 @@ export const mixin = {
     },
     // 获取图片信息
     attachImageUrl (srcUrl) {
-      return srcUrl ? this.$store.state.configure.HOST + srcUrl || '../assets/img/user.jpg' : ''
+      //console.log(srcUrl)
+      return srcUrl ? this.$store.state.configure.HOST + '/' + srcUrl || '../assets/img/user.jpg' : ''
     },
     attachBirth (val) {
-      let birth = String(val).match(/[0-9-]+(?=\s)/)
-      return Array.isArray(birth) ? birth[0] : birth
+      //console.log(val)
+      let birth = val.slice(0,10)
+      return birth
     },
     // 得到名字后部分
     replaceFName (str) {

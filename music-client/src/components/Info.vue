@@ -84,15 +84,15 @@ export default {
     getMsg (id) {
       getUserOfId(id)
         .then(res => {
-          this.registerForm.username = res[0].username
-          this.registerForm.password = res[0].password
-          this.registerForm.sex = res[0].sex
-          this.registerForm.phoneNum = res[0].phoneNum
-          this.registerForm.email = res[0].email
-          this.registerForm.birth = res[0].birth
-          this.registerForm.introduction = res[0].introduction
-          this.registerForm.location = res[0].location
-          this.registerForm.avator = res[0].avator
+          this.registerForm.username = res.username
+          this.registerForm.password = res.password
+          this.registerForm.sex = res.sex
+          this.registerForm.phoneNum = res.phoneNum
+          this.registerForm.email = res.email
+          this.registerForm.birth = res.birth
+          this.registerForm.introduction = res.introduction
+          this.registerForm.location = res.location
+          this.registerForm.avator = res.avator
         })
         .catch(err => {
           console.log(err)
@@ -103,18 +103,19 @@ export default {
     },
     saveMsg () {
       let d = new Date(this.registerForm.birth)
-      let datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-      let params = new URLSearchParams()
-      params.append('id', this.userId)
-      params.append('username', this.registerForm.username)
-      params.append('password', this.registerForm.password)
-      params.append('sex', this.registerForm.sex)
-      params.append('phone_num', this.registerForm.phoneNum)
-      params.append('email', this.registerForm.email)
-      params.append('birth', datetime)
-      params.append('introduction', this.registerForm.introduction)
-      params.append('location', this.registerForm.location)
-      updateUserMsg(params)
+      let payload={
+        id:this.userId,
+        username: this.registerForm.username,
+        password: this.registerForm.password,
+        sex: this.registerForm.sex,
+        phoneNum: this.registerForm.phoneNum,
+        email: this.registerForm.email,
+        birth: d,
+        introduction: this.registerForm.introduction,
+        location: this.registerForm.location
+      }
+
+      updateUserMsg(payload)
         .then(res => {
           if (res.code === 1) {
             this.showError = false

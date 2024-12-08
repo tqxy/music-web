@@ -29,7 +29,7 @@
 import ContentList from '../components/ContentList'
 import { mapGetters } from 'vuex'
 import { songStyle } from '../assets/data/songList'
-import { getSongList, getSongListOfStyle } from '../api/index'
+import { getAllSongList, getSongListOfStyle } from '../api/index'
 
 export default {
   name: 'song-list',
@@ -75,7 +75,7 @@ export default {
     },
     // 获取全部歌单
     getSongList (page) {
-      getSongList()
+     getAllSongList()
         .then(res => {
           this.currentPage = 1
           this.albumDatas = res

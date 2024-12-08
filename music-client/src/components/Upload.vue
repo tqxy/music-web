@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     uploadUrl () {
-      return `${this.$store.state.configure.HOST}/user/avatar/update?id=${this.userId}`
+      return `${this.$store.state.configure.HOST}/consumer/updateConsumerAvator?id=${this.userId}`
     },
     handleAvatarSuccess (res, file) {
       if (res.code === 1) {

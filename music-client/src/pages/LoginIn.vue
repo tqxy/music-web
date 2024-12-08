@@ -77,12 +77,12 @@ export default {
       loginIn(params)
         .then(res => {
           // console.log('-----------获取登录信息---------------')
-          if (res.code === 1) {
+          if (res.code===1) {
             _this.$message({
               message: '登录成功',
               type: 'success'
             })
-            _this.setUserMsg(res.userMsg[0])
+            _this.setUserMsg(res.userMsg)
             _this.$store.commit('setLoginIn', true)
             setTimeout(function () {
               _this.changeIndex('首页')

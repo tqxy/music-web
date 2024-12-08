@@ -1,16 +1,16 @@
 /* eslint-disable*/
 import axios from 'axios'
-import { get, post } from './http'
+import { get, post, postJson } from './http'
 
 // =======================> 用户 API
 // 登录
-export const loginIn = (params) => post(`user/login/status`, params)
+export const loginIn = (params) => post(`consumer/login/status`, params)
 // 注册
-export const SignUp = (params) => post(`user/add`, params)
+export const SignUp = (params) => postJson(`consumer/add`, params)
 // 更新用户信息
-export const updateUserMsg = (params) => post(`user/update`, params)
+export const updateUserMsg = (params) => postJson(`consumer/update`, params)
 // 返回指定ID的用户
-export const getUserOfId = (id) => get(`user/detail?id=${id}`)
+export const getUserOfId = (id) => get(`consumer/detail?id=${id}`)
 //查询所有用户
 export const getAllConsumer =()=>get('/consumer/allConsumer');
 
@@ -21,9 +21,9 @@ export const getSongList = () => get('songList')
 // 获取歌单类型
 export const getSongListOfStyle = (style) => get(`songList/style/detail?style=${style}`)
 // 返回标题包含文字的歌单
-export const getSongListOfLikeTitle = (keywords) => get(`songList/likeTitle/detail?title=${keywords}`)
+export const getSongListOfLikeTitle = (keywords) => get(`songList/likeTitle?title=${keywords}`)
 // 返回歌单里指定歌单ID的歌曲
-export const getListSongOfSongId = (songListId) => get(`listSong/detail?songListId=${songListId}`)
+export const getListSongOfSongId = (songListId) => get(`listSong/songList/detail?songListId=${songListId}`)
 //查询所有歌手
 export const getAllSongList =()=>get('/songList/allSongList');
 //根据歌单ID获取歌曲ID列表
@@ -51,7 +51,7 @@ export const setCollection = (params) => post(`collection/add`, params)
 // 提交评分
 export const setRank = (params) => post(`rank/add`, params)
 // 获取指定歌单的评分
-export const getRankOfSongListId = (songListId) => get(`rank?songListId=${songListId}`)
+export const getRankOfSongListId = (songListId) => get(`rank/average?songListId=${songListId}`)
 
 
 // =======================> 评论 API
@@ -73,7 +73,7 @@ export const getAllComment = (type, id) => {
 
 // =======================> 歌曲 API
 // 返回指定歌曲ID的歌曲
-export const getSongOfId = (id) => get(`song/detail?id=${id}`)
+export const getSongOfId = (id) => get(`song/detail?songId=${id}`)
 // 返回指定歌手ID的歌曲
 export const getSongOfSingerId = (id) => get(`song/singer/detail?singerId=${id}`)
 // 返回指定歌手名的歌曲

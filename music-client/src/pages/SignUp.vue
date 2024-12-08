@@ -80,18 +80,18 @@ export default {
     SignUp () {
       let _this = this
       let d = this.registerForm.birth
-      let datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-      let params = new URLSearchParams()
-      params.append('username', this.registerForm.username)
-      params.append('password', this.registerForm.password)
-      params.append('sex', this.registerForm.sex)
-      params.append('phone_num', this.registerForm.phoneNum)
-      params.append('email', this.registerForm.email)
-      params.append('birth', datetime)
-      params.append('introduction', this.registerForm.introduction)
-      params.append('location', this.registerForm.location)
-      params.append('avator', '/img/user.jpg')
-      SignUp(params)
+      let datetime = new Date(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate())
+      let payload={
+        username: this.registerForm.username,
+        password: this.registerForm.password,
+        sex: this.registerForm.sex,
+        phoneNum: this.registerForm.phoneNum,
+        email: this.registerForm.email,
+        birth: datetime,
+        introduction: this.registerForm.introduction,
+        location: this.registerForm.location
+      }
+      SignUp(JSON.stringify(payload))
         .then(res => {
           console.log(res)
           if (res.code === 1) {

@@ -100,7 +100,7 @@ export default {
     getSongList (id) {
       getSongOfId(id)
         .then(res => {
-          this.songLists.push(res[0])
+          this.songLists.push(res)
         })
         .catch(err => {
           console.log(err)

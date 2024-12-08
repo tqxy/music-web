@@ -101,7 +101,7 @@
     <select id="singerOfName" parameterType="java.lang.String" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from singer where name like #{name}
     </select>
-    <select id="singerOfSex" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+    <select id="singerOfSex" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from singer
         where sex=#{sex}

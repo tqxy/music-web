@@ -6,7 +6,6 @@
     <router-view class="music-content"/>
     <play-bar/>
     <scroll-top/>
-    <the-footer/>
   </div>
 </template>
 

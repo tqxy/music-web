@@ -112,4 +112,9 @@ public class SongListController {
         }
         return jsonObject;
     }
+    @RequestMapping("style/detail")
+    public Object songListOfStyle(HttpServletRequest request){
+        String style=request.getParameter("style");
+        return songListService.likeStyle(style);
+    }
 }

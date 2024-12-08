@@ -70,11 +70,24 @@ public class ConsumerController {
         String id=request.getParameter("id");
         return consumerService.delete(Integer.parseInt(id));
     }
-    @RequestMapping("/login")
+    @RequestMapping("/login/status")
     public Object login(HttpServletRequest request){
         String username=request.getParameter("username");
         String password=request.getParameter("password");
-        return consumerService.verifyPassword(username,password);
+        boolean flag= consumerService.verifyPassword(username,password);
+        JSONObject jsonObject=new JSONObject();
+        if(flag){
+            jsonObject.put("code",1);
+            jsonObject.put("status","success");
+            jsonObject.put("msg","登录成功");
+            jsonObject.put("userMsg",consumerService.getByUsername(username));
+            return jsonObject;
+        }else{
+            jsonObject.put("code",0);
+            jsonObject.put("status","error");
+            jsonObject.put("msg","用户名或密码错误");
+            return jsonObject;
+        }
     }
     @RequestMapping("/allConsumer")
     public Object allConsumer(){
@@ -118,5 +131,10 @@ public class ConsumerController {
             jsonObject.put("msg", "上传失败" + e.getMessage());
         }
         return jsonObject;
+    }
+    @RequestMapping("/detail")
+    public Object detail(HttpServletRequest request){
+        String id=request.getParameter("id");
+        return consumerService.selectByPrimaryKey(Integer.parseInt(id));
     }
 }

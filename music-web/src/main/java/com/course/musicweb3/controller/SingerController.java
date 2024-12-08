@@ -92,7 +92,7 @@ public class SingerController {
         String name=request.getParameter("name");
         return singerService.singerOfName(name);
     }
-    @RequestMapping("/singerOfSex")
+    @RequestMapping("/sex/detail")
     public Object singerOfSex(HttpServletRequest request){
         String sex=request.getParameter("sex");
         return singerService.singerOfSex(Integer.parseInt(sex));
